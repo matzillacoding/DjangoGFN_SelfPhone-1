@@ -1,14 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="de">
 <head>
+ 
+    {% load static %}
+ 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content=""> <!-- To-Do -> Dynamisch erzeugen-->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ 
+    <title></title> <!-- To-Do -> Dynamisch erzeugen -->
+ 
+    <link rel="apple-touch-icon" href="{% static 'images/favicons/apple-touch-icon.png' %}" sizes="180x180" type="image/png">
+    <link rel="icon" href="{% static 'images/favicons/android-chrome-96x96.png' %}" sizes="96x96" type="image/png">
+    <link rel="icon" href="{% static 'images/favicons/favicon-32x32.png' %}" sizes="32x32" type="image/png">
+    <link rel="icon" href="{% static 'images/favicons/favicon-16x16.png' %}" sizes="16x16" type="image/png">
+    <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}" type="image/ico">
+ 
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/securitytoken.js' %}"></script>
 </head>
-
 <body>
-    <p>TEST</p>
+   
+    <!-- header.html {% include 'shop/header.html' %}-->
+ 
+    {% block content %}
+        <!-- start.html -->
+        <!-- product_gallery.html -->
+        <!-- product_details.html -->
+        <!-- basket.html -> Eigene Warenkorbseite -->
+        <!-- checkout.html -->
+    {% endblock content %}
+   
+    <!-- footer.html {% include 'shop/footer.html' %} -->
 </body>
-
 </html>
