@@ -22,7 +22,7 @@
 </head>
 <body>
    
-    <!-- header.html {% include 'shop/header.html' %}-->
+    {% include 'shop/header.html' %}
  
     {% block content %}
         <!-- start.html -->
@@ -32,6 +32,7 @@
         <!-- checkout.html -->
     {% endblock content %}
    
-    <!-- footer.html {% include 'shop/footer.html' %} -->
+    {% include 'shop/footer.html' %}
+    <script defer src="{% static 'js/header.js' %}"></script>
 </body>
 </html>
