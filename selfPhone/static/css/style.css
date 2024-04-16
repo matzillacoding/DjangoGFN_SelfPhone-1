@@ -1,7 +1,246 @@
-body {
-  background: #333;
+@font-face {
+  font-family: "Epilogue";
+  src: local("Epilogue"), url("../fonts/epilogue/Epilogue-Regular.ttf") type("truetype");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Epilogue";
+  src: local("Epilogue"), url("../fonts/epilogue/Epilogue-SemiBold.ttf") type("truetype");
+  font-weight: 600;
+}
+@font-face {
+  font-family: "Epilogue";
+  src: local("Epilogue"), url("../fonts/epilogue/Epilogue-Black.ttf") type("truetype");
+  font-weight: 900;
+}
+*, *::before, *::after {
+  box-sizing: inherit;
 }
 
-header {
-  background: #333;
+html {
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+  font-family: "Epilogue", Arial, Helvetica, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: #333;
+  padding: 0;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+h1 {
+  font-size: 72px;
+}
+
+h2 {
+  font-size: 36px;
+}
+
+h3 {
+  font-size: 28px;
+}
+
+h4 {
+  font-size: 24px;
+}
+
+h5 {
+  font-size: 18px;
+}
+
+h6 {
+  font-size: 16px;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.container-full {
+  width: 100%;
+  max-width: 100%;
+}
+
+.container {
+  width: 1600px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+#header,
+.navbar,
+.navbar-nav a,
+.header-nav,
+.header-icon,
+.logo,
+.logo img {
+  height: 60px;
+}
+@media only screen and (min-width: 1200px) {
+  #header,
+  .navbar,
+  .navbar-nav a,
+  .header-nav,
+  .header-icon,
+  .logo,
+  .logo img {
+    height: 80px;
+  }
+}
+
+#header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  background: #000;
+  color: #eee;
+}
+
+.navbar {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 1.5rem;
+}
+@media only screen and (min-width: 1200px) {
+  .navbar {
+    justify-content: center;
+  }
+}
+.navbar .logo {
+  position: relative;
+  left: 0;
+  top: 0;
+}
+@media only screen and (min-width: 1200px) {
+  .navbar .logo {
+    position: absolute;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .navbar .logo img {
+    padding: 0.5rem 1rem;
+  }
+}
+.navbar .navbar-nav {
+  position: fixed;
+  top: 0;
+  right: -360px;
+  width: 360px;
+  max-width: 100%;
+  height: 100vh;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  overflow: auto;
+  transition: ease-in-out 0.5s all;
+}
+.navbar .navbar-nav.visible {
+  right: 0;
+}
+@media only screen and (min-width: 1200px) {
+  .navbar .navbar-nav {
+    position: static;
+    width: auto;
+    height: auto;
+    background: transparent;
+  }
+}
+.navbar .navbar-nav ul {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  padding: 1rem;
+}
+@media only screen and (min-width: 1200px) {
+  .navbar .navbar-nav ul {
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+  }
+}
+.navbar .navbar-nav ul li {
+  width: 100%;
+}
+.navbar .navbar-nav ul li a {
+  display: flex;
+  width: 100%;
+  color: #333;
+  text-align: left;
+  text-transform: uppercase;
+  padding: 1rem;
+}
+@media only screen and (min-width: 1200px) {
+  .navbar .navbar-nav ul li a {
+    color: #eee;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 1.5rem;
+  }
+}
+.navbar .navbar-nav .header-nav {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  right: 0;
+  top: 0;
+  padding: 1rem;
+}
+@media only screen and (min-width: 1200px) {
+  .navbar .navbar-nav .header-nav {
+    position: absolute;
+    width: auto;
+    padding: 0 1rem;
+  }
+}
+.navbar .navbar-nav .header-nav .header-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+.navbar .burger-icon {
+  position: fixed;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  z-index: 9999;
+}
+@media only screen and (min-width: 1200px) {
+  .navbar .burger-icon {
+    display: none;
+  }
+}
+
+.header-icon {
+  cursor: pointer;
+}
+.header-icon svg {
+  fill: #eee;
 }/*# sourceMappingURL=style.css.map */

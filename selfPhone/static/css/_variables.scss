@@ -1,1 +1,38 @@
+$breakpoint-sm:   576px;
+$breakpoint-md:   768px;
+$breakpoint-lg:   992px;
+$breakpoint-xl:  1200px;
+$breakpoint-xxl: 1600px;
+
+$base-width: $breakpoint-xxl; 
+
+$font-family: "Epilogue", Arial, Helvetica, sans-serif;
+$font-base: 16px;
+$font-size: .875rem;
+$line-height: 1.6;
+
 $color-primary: #333;
+$color-secondary: #666;
+$color-ternary: #eee;
+$color-light: #fff;
+$color-dark: #000;
+$color-accent-primary: #20b2aa;
+$color-accent-secondary: darken($color-accent-primary, 10%); 
+
+$fs-1: 72px;
+$fs-2: 36px;
+$fs-3: 28px;
+$fs-4: 24px;
+$fs-5: 18px;
+$fs-6: 16px;
+
+$spacing-xs:  .5rem;
+$spacing-sm:   1rem;
+$spacing-md: 1.5rem;
+$spacing-lg:   2rem;
+$spacing-xl:   3rem;
+
+$border-header: 1px solid $color-primary;
+
+$transition-nav: ease .35s all;
+$transition-nav-slider: ease-in-out .5s all;
