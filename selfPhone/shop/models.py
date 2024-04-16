@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Enums für die Auswahl der Eigenschaften eines Smartphones
 
@@ -109,13 +111,18 @@ class Smartphone(models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=255, default="")
-
-    def set_name_from_smartphone(self, smartphone):
-        self.name = str(smartphone)
-        self.save()
-
+    name = models.CharField(max_length=255)
     smartphone = models.OneToOneField(Smartphone, on_delete=models.CASCADE)
+
+
+@receiver(post_save, sender=Smartphone)
+def update_product(sender, instance, created, **kwargs):
+    if created:
+        Product.objects.create(smartphone=instance, name=str(instance))
+    else:
+        product = Product.objects.get(smartphone=instance)
+        product.name = str(instance)
+        product.save()
 
 
 class CartItem(models.Model):
