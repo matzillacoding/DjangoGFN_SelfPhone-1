@@ -34,6 +34,11 @@
         
     <div class="slider login-slider">
         <div class="icon-close"></div>
+        {% if user.is_authenticated %}
+            {% include 'shop/logout.html' %}
+        {% else %}
+            {% include 'shop/login.html' %}
+        {% endif %}
     </div>
     <div class="slider basket-slider">
         <div class="icon-close"></div>

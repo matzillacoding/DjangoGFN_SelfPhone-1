@@ -14,6 +14,12 @@ urlpatterns = [
 
     path('checkout/', views.checkout, name='checkout'),
 
-    path('login/', views.login, name='login'),
+    path('login/', views.login_user, name='login'),
+
+    path('logout/', views.logout_user, name='logout'),
+
+    path('test/', views.test, name='test'),
+
+    # path('shop_backend/', views.shopBackend, name='shop_backend')
 
 ]

@@ -34,35 +34,71 @@ function open(icon, slider) {
     showOverlay();
     [icon, slider].forEach(element => {
         element.classList.add("visible");
-    })
+    });
+
+    // Fokus auf das Benutzername-Feld setzen, wenn die Slidebar geöffnet wird
+    /*if (slider === sliderAccount) {
+        document.querySelector("#InputEmail").focus();
+    }*/
 }
+
 
 // Events
 
 allIcons.forEach(icon => {
-    icon.addEventListener('click', function() {
+    icon.addEventListener('click', function () {
         overlay.classList.add("visible");
     })
 })
 
-iconMenu.addEventListener('click', function() {
+iconMenu.addEventListener('click', function () {
     open(iconMenu, sliderMenu);
 })
 
-iconBasket.addEventListener('click', function() {
+iconBasket.addEventListener('click', function () {
     open(iconBasket, sliderBasket);
 })
 
-iconAccount.addEventListener('click', function() {
+iconAccount.addEventListener('click', function () {
     open(iconAccount, sliderAccount);
 })
 
-overlay.addEventListener('click', function() {
+overlay.addEventListener('click', function () {
     hideAll();
 })
 
 iconsClose.forEach(icon => {
-    icon.addEventListener('click', function() {
+    icon.addEventListener('click', function () {
         hideAll();
     })
 })
+
+// AJAX-Funktion für das Formular im Slider
+function submitLoginForm() {
+    const formData = new FormData(document.querySelector('#loginForm'));
+
+    fetch('/login/', {
+        method: 'POST',
+        body: formData,
+        'X-CSRFToken': csrftoken,
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            // Hier kannst du die Antwort des Servers verarbeiten, z.B. Erfolg oder Fehlermeldung anzeigen
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
+}
+
+// Event-Listener für das Absenden des Formulars
+document.querySelector('#loginForm').addEventListener('submit', function (event) {
+    //event.preventDefault(); // Verhindert das Standardverhalten des Formulars (Seite neu laden)
+    submitLoginForm(); // Sendet das Formular über AJAX
+});

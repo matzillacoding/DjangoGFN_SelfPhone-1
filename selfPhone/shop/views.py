@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 
 # Create your views here.
 
@@ -27,5 +29,35 @@ def checkout(request):
     return render(request, 'shop/checkout.html')
 
 
-def login(request):
+def test(request):
+    return render(request, 'shop/test.html')
+
+
+def login_user(request):
+
+    messages.success(request, "methode geladen.")
+    if request.method == 'POST':
+        benutzername = request.POST['benutzername']
+        passwort = request.POST['passwort']
+
+        messages.success(request, "POST WAR ERFOLGREICH.")
+
+        benutzer = authenticate(
+            request, username=benutzername, password=passwort)
+
+        if benutzer is not None:
+            login(request, benutzer)
+            # server message
+            messages.success(request, "Erfolgreich eingeloggt.")
+            # return redirect('login')
+        else:
+            messages.error(
+                request, "Benutzername oder Passwort nicht korrekt.")
+
     return render(request, 'shop/login.html')
+
+
+def logout_user(request):
+    logout(request)
+    messages.success(request, "Erfolgreich ausgeloggt.")
+    return render(request, 'shop/logout.html')
