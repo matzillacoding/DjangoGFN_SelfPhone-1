@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from asgiref.sync import sync_to_async
 
 # Create your views here.
 
@@ -49,7 +50,7 @@ def login_user(request):
             login(request, benutzer)
             # server message
             messages.success(request, "Erfolgreich eingeloggt.")
-            # return redirect('login')
+            return redirect('shop')
         else:
             messages.error(
                 request, "Benutzername oder Passwort nicht korrekt.")
