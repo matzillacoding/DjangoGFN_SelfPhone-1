@@ -2,5 +2,174 @@
 {% load static %}
  
 {% block content %}
- 
+    <div class="container-full">
+        <div class="container">
+            <div class="container-product-details">
+
+                <!-- PRODUCT IMAGES -->
+                <div id="image-slider" class="container-product-image">
+                    <div class="cpi-image">
+                        <img src="{% static 'images/products/iphone15_titan-black_01.png' %}" alt="iPhone 15 - titan black">
+                    </div>
+                    <div class="cpi-image">
+                        <img src="{% static 'images/products/iphone15_titan-black_02.png' %}" alt="iPhone 15 - titan black">
+                    </div>
+                    <div class="cpi-image">
+                        <img src="{% static 'images/products/iphone15_titan-black_03.png' %}" alt="iPhone 15 - titan black">
+                    </div>
+                    <div class="cpi-image">
+                        <img src="{% static 'images/products/iphone15_titan-black_04.png' %}" alt="iPhone 15 - titan black">
+                    </div>
+                </div>
+
+                <!-- PRODUCT INFORMATION -->
+
+                <div class="container-product-information">     
+                    <div class="container-product-information-inner">
+
+                        <div class="product-informations">
+                            <div class="product-header">
+                                <div class="product-header-name">
+                                    <div class="pi-brand">
+                                        <div class="pi-brand-name">
+                                            <p>Apple</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="pi-product">
+                                        <p class="pi-product-name">iPhone 15 </p>
+                                    </div>
+                                </div>
+                                
+                                <div class="pi-brand-icon">
+                                    <a href="">
+                                        <img src="{% static 'images/icons/brand-icons/icon-apple-50.png' %}" alt="Apple">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="pi-price">
+                                <span class="pi-price-value">949,00 €</span>
+                                <span class="pi-price-vat">
+                                    <a href="">inkl. MwSt., zzgl. Versand</a>
+                                </span>
+                            </div>
+                        </div>  
+                        
+                        <div class="product-variation-container">
+                            <form method="" action="">
+                                <div class="variation-container">
+                                    <h6 class="variation-headline">Farbe: <!-- Dynamisch aktuelle Auswahl --><span>titan black</span></h6>
+                                    <div class="variation-selection">
+                                        <div class="variation">
+                                            <input type="radio" id="titanblack" name="farbe" checked>
+                                            <label for="titanblack">
+                                                <div class="var color" style="background: #44484B;"></div>
+                                            </label>
+                                        </div>
+                                        <div class="variation">
+                                            <input type="radio" id="green" name="farbe">
+                                            <label for="green">
+                                                <div class="var color" style="background: #D1DCCC;"></div>
+                                            </label>
+                                        </div>
+                                        <div class="variation">
+                                            <input type="radio" id="blue" name="farbe">
+                                            <label for="blue">
+                                                <div class="var color" style="background: #D5DDE0;"></div>
+                                            </label>
+                                        </div>
+                                        <div class="variation">
+                                            <input type="radio" id="pink" name="farbe">
+                                            <label for="pink">
+                                                <div class="var color" style="background: #EDD5D6;"></div>
+                                            </label>
+                                        </div>
+                                        <div class="variation">
+                                            <input type="radio" id="yellow" name="farbe">
+                                            <label for="yellow">
+                                                <div class="var color" style="background: #EDE8CA;"></div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="variation-container">
+                                    <h6 class="variation-headline">Speicherplatz: <!-- Dynamisch aktuelle Auswahl --><span>128 GB</span></h6>
+                                    <div class="variation-selection">
+                                        <div class="variation">
+                                            <input type="radio" id="128" name="speicherplatz" checked>
+                                            <label for="128">
+                                                <div class="var square">128 GB</div>
+                                            </label>
+                                        </div>
+                                        <div class="variation">
+                                            <input type="radio" id="256" name="speicherplatz">
+                                            <label for="256">
+                                                <div class="var square">256 GB</div>
+                                            </label>
+                                        </div>
+                                        <div class="variation">
+                                            <input type="radio" id="512" name="speicherplatz">
+                                            <label for="512">
+                                                <div class="var square">512 GB</div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="add-to-basket-container">
+                                    <select id="menge" name="menge">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+
+                                    <button type="submit" class="add-to-basket">In den Warenkorb</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="description-container">
+                            <h6>Beschreibung</h6>
+                            <div class="description">
+                                <p>Entdecken Sie das iPhone 15: Die nächste Evolutionsstufe in Sachen Technologie und Design. Mit einem atemberaubenden, 
+                                   randlosen OLED-Display, das lebendige Farben und gestochen scharfe Details liefert, tauchen Sie in eine immersive visuelle 
+                                   Erfahrung ein. Das iPhone 15 ist mit einem fortschrittlichen A15 Bionic Chip ausgestattet, der für unübertroffene Leistung 
+                                   und Effizienz sorgt, egal ob Sie Fotos aufnehmen, Spiele spielen oder Videos bearbeiten.
+                                </p>
+
+                                <p>Die Kamera des iPhone 15 definiert die Art und Weise, wie Sie Fotos und Videos aufnehmen, neu. Mit einem fortschrittlichen 
+                                   Triple-Kamerasystem, das von künstlicher Intelligenz unterstützt wird, erfassen Sie jeden Moment mit beeindruckender Klarheit 
+                                   und Detailgenauigkeit. Dank der innovativen Bildstabilisierungstechnologie sind Ihre Aufnahmen selbst bei schwierigen Lichtverhältnissen 
+                                   oder bei Bewegung stets gestochen scharf.
+                                </p>
+                                    
+                                <p>Mit verbesserten Sicherheitsfunktionen wie Face ID und einem robusten Aluminium-Gehäuse bietet das iPhone 15 Ihnen nicht nur 
+                                   leistungsstarke Technologie, sondern auch ein Höchstmaß an Schutz Ihrer persönlichen Daten. Dank der nahtlosen Integration mit 
+                                   anderen Apple-Geräten und Diensten erleben Sie eine reibungslose Konnektivität und Produktivität in Ihrem digitalen Leben.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="details-container">
+                            <h6>Spezifikationen</h6>
+                            <div class="details">
+                                <div class="detail"><span>Hersteller</span>Apple</div>
+                                <div class="detail"><span>Modell</span>iPhone 15</div>
+                                <div class="detail"><span>Farbe</span>titan black</div>
+                                <div class="detail"><span>Speicherplatz</span>128 GB</div>
+                                <div class="detail"><span>Prozessor</span>A18</div>
+                                <div class="detail"><span>Displaygröße</span>6,1"</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 {% endblock content %}
