@@ -1,11 +1,14 @@
-// AJAX-Funktion für den logout knopf
-function submitLogoutForm() {
-    const formData = new FormData(document.querySelector('#logoutForm'));
+// Holt den CSRF-Token aus dem HTML-Meta-Tag
+const csrftoken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+// AJAX-Funktion für den Logout-Button
+function submitLogoutButton() {
     fetch('/logout/', {
         method: 'POST',
-        body: formData,
-        'X-CSRFToken': csrftoken,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': csrftoken
+        }
     })
         .then(response => {
             if (!response.ok) {
@@ -14,18 +17,16 @@ function submitLogoutForm() {
             return response.text();
         })
         .then(data => {
-            // Hier kannst du die Antwort des Servers verarbeiten, z.B. Erfolg oder Fehlermeldung anzeigen
             console.log(data);
-            location.reload();
+            location.reload(); // Zwingend nach dem Logout!
         })
         .catch(error => {
             console.error('There has been a problem with your fetch operation:', error);
         });
 }
 
-// Event-Listener für das Absenden des Formulars
-document.querySelector('#logoutForm').addEventListener('submit', function (event) {
-    event.preventDefault(); // Verhindert das Standardverhalten des Formulars (Seite neu laden)
-    submitLogoutForm(); // Sendet das Formular über AJAX
-
+// Event-Listener für den Button
+document.querySelector('#logoutButton').addEventListener('click', function (event) {
+    event.preventDefault(); // Verhindert das Standardverhalten des Buttons
+    submitLogoutButton(); // Sendet das Formular über AJAX
 });
