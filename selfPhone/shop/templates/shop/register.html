@@ -1,0 +1,16 @@
+<h1>Registrieren</h1>
+<div>
+    <form id="registerForm" method="POST" action="">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="">{{field.label}}</div>
+        {{field}}
+      {% endfor %}
+      <br>
+        <button id="registerButton" type="submit">Registrieren</button>
+    </form>
+
+    <div>
+        <p>Bereits Kunde?<a href={% url 'shop' %}>Zurück zum Shop</a></p>
+      </div>
+</div>

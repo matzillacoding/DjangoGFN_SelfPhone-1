@@ -20,6 +20,8 @@ urlpatterns = [
 
     path('test/', views.test, name='test'),
 
+    path('register/', views.register_user, name='register'),
+
     # path('shop_backend/', views.shopBackend, name='shop_backend')
 
 ]

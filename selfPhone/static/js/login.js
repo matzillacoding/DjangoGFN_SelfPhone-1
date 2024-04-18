@@ -11,7 +11,7 @@ function submitLoginForm() {
         method: 'POST',
         body: formData,
         headers: {
-            'X-CSRFToken': csrftoken, // Setze den CSRF-Token im Header
+            'X-CSRFToken': csrftoken, // Setzt den CSRF-Token für AJAX aus dem Header
         }
     })
         .then(response => {
@@ -22,7 +22,7 @@ function submitLoginForm() {
         })
         .then(data => {
             console.log(data);
-            location.reload(); // Zwingend nach dem Login!
+            location.reload(); // Zwingend nach dem Login! Sonst wird der Logout Knopf nicht angezeigt!
         })
         .catch(error => {
             console.error('There has been a problem with your fetch operation:', error);

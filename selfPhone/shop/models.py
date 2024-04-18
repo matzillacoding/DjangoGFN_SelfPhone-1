@@ -45,7 +45,7 @@ class Storage_size(models.TextChoices):
 
 
 class Costumer(models.Model):
-    costumer = models.OneToOneField(
+    user = models.OneToOneField(
         User, on_delete=models.CASCADE)  # 1:1 Beziehung zu User
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -53,10 +53,6 @@ class Costumer(models.Model):
 
     def __str__(self):
         return self.first_name + " " + self.last_name
-
-
-def __str__(self):
-    return self.street + " " + self.house_number + ", " + self.postcode + " " + self.city
 
 
 class Smartphone(models.Model):
@@ -175,7 +171,7 @@ class CartItem(models.Model):
 
 
 class Address(models.Model):
-    costumer = models.ForeignKey(Costumer, on_delete=models.CASCADE)
+    user = models.ForeignKey(Costumer, on_delete=models.CASCADE)
     postcode = models.CharField(max_length=5)
     city = models.CharField(max_length=100)
     street = models.CharField(max_length=150)
@@ -190,7 +186,7 @@ class Order(models.Model):
         ('F', 'Finished'),
     ]
 
-    costumer = models.ForeignKey(Costumer, on_delete=models.CASCADE)
+    user = models.ForeignKey(Costumer, on_delete=models.CASCADE)
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
     products = models.ManyToManyField(CartItem)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -211,4 +207,4 @@ class Order(models.Model):
         return total_price
 
     def __str__(self):
-        return f"{self.costumer} {self.address} {self.products.all()}"
+        return f"{self.user} {self.address} {self.products.all()}"
