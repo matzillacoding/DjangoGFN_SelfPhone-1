@@ -27,6 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Add the following configuration INTERNAL IPS must be set manually
+INTERNAL_IPS = [
+    '127.0.0.1'
+]
 
 # Application definition
 
