@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from .models import Costumer
 # from asgiref.sync import sync_to_async
-from . forms import EigeneUserCreationForm
+from . forms import EigeneUserCreationForm, AddressForm
 
 # Create your views here.
 
@@ -67,14 +68,24 @@ def logout_user(request):
 
 def register_user(request):
     seite = 'register'
-    form = EigeneUserCreationForm
-    messages.success(request, "register_user geladen.")
-
+    user_form = EigeneUserCreationForm()
+    address_form = AddressForm()
     if request.method == 'POST':
-        form = EigeneUserCreationForm(request.POST)
-        if form.is_valid():
-            benutzer = form.save(commit=False)
-            benutzer.save()
+        user_form = EigeneUserCreationForm(request.POST)
+        address_form = AddressForm(request.POST)
+        if user_form.is_valid() and address_form.is_valid():
+            benutzer = user_form.save()
+
+            customer = Costumer(
+                first_name=user_form.cleaned_data['first_name'],
+                last_name=user_form.cleaned_data['last_name'],
+                email=user_form.cleaned_data['email'],
+                customer=benutzer)
+            customer.save()
+
+            address = address_form.save(commit=False)
+            address.customer = customer  # Verknüpfung der Adresse mit dem Customer
+            address.save()
 
             login(request, benutzer)
             messages.success(request, "Benutzerkonto wurde erstellt.")
@@ -83,4 +94,32 @@ def register_user(request):
             messages.error(
                 request, "Fehler beim Erstellen des Benutzerkontos.")
 
-    return render(request, 'shop/register.html', {'seite': seite, 'form': form})
+    return render(request, 'shop/register.html', {'seite': seite, 'user_form': user_form, 'address_form': address_form})
+
+
+# def register_user(request):
+#     seite = 'register'
+#     form = EigeneUserCreationForm
+#     messages.success(request, "register_user geladen.")
+
+#     if request.method == 'POST':
+#         form = EigeneUserCreationForm(request.POST)
+#         if form.is_valid():
+#             benutzer = form.save(commit=False)
+#             benutzer.save()
+
+#             customer = Costumer(
+#                 first_name=request.POST['first_name'],
+#                 last_name=request.POST['last_name'],
+#                 email=request.POST['email'],
+#                 customer=benutzer)
+#             customer.save()
+
+#             login(request, benutzer)
+#             messages.success(request, "Benutzerkonto wurde erstellt.")
+#             return redirect('shop')
+#         else:
+#             messages.error(
+#                 request, "Fehler beim Erstellen des Benutzerkontos.")
+
+#     return render(request, 'shop/register.html', {'seite': seite, 'form': form})
