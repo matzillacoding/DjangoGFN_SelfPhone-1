@@ -9,7 +9,7 @@ from . forms import EigeneUserCreationForm, AddressForm
 
 
 def shop(request):
-    return render(request, 'shop/index.html')
+    return render(request, 'shop/product_details.html')
 
 
 def start(request):
