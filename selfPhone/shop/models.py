@@ -115,8 +115,8 @@ class Smartphone(models.Model):
                 original_filename, extension = os.path.splitext(
                     original_file.name)
 
-                safe_original_filename = original_filename[:50]
-                new_filename = f"{safe_original_filename}_{uuid4()}_{suffix}{extension}"
+                safe_original_filename = original_filename
+                new_filename = f"{safe_original_filename}{suffix}{extension}"
 
                 new_file_path = os.path.join(
                     os.path.dirname(original_file.path), new_filename)
