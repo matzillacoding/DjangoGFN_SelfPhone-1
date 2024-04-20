@@ -3,6 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from uuid import uuid4
 import os
 # Enums für die Auswahl der Eigenschaften eines Smartphones
 
@@ -57,22 +58,15 @@ class Costumer(models.Model):
 
 class Smartphone(models.Model):
     manufacturer = models.CharField(max_length=2, choices=Manufacturer.choices)
-
     model = models.CharField(max_length=100)
-
     color = models.CharField(
         max_length=10, choices=Color.choices, default=Color.SCHWARZ)
 
     prozessortyp = models.CharField(null=True, blank=True, max_length=100)
-
     ghz = models.DecimalField(max_digits=4, decimal_places=2, default=0.0)
-
     cores = models.CharField(null=True, blank=True, max_length=3)
-
     main_camera = models.CharField(max_length=3, default=0)
-
     front_camera = models.CharField(max_length=3, default=0)
-
     display = models.DecimalField(max_digits=4, decimal_places=2, default=0.0)
 
     memory_size = models.CharField(
@@ -82,18 +76,12 @@ class Smartphone(models.Model):
         max_length=4, choices=Storage_size.choices, default=Storage_size.einhundertachtundzwanzig)
 
     akku = models.IntegerField()
-
     basic_price = models.FloatField(null=True, blank=True, default=0.0)
-
-    picture01 = models.ImageField(null=True, blank=True)
-
     description = models.TextField(max_length=500)
-
-    picture02 = models.ImageField(null=True, blank=True)
-
-    picture03 = models.ImageField(null=True, blank=True)
-
-    picture04 = models.ImageField(null=True, blank=True)
+    pictureFront = models.ImageField(null=True, blank=True)
+    pictureBack = models.ImageField(null=True, blank=True)
+    pictureSide = models.ImageField(null=True, blank=True)
+    pictureDetail = models.ImageField(null=True, blank=True)
 
     def update_price_based_on_specs(self):
         price_adjustments = {
@@ -120,23 +108,29 @@ class Smartphone(models.Model):
 
     def save(self, *args, **kwargs):
         self.update_price_based_on_specs()
+
+        def save_image(image_field, suffix):
+            original_file = getattr(self, image_field)
+            if original_file:
+                original_filename, extension = os.path.splitext(
+                    original_file.name)
+
+                safe_original_filename = original_filename[:50]
+                new_filename = f"{safe_original_filename}_{uuid4()}_{suffix}{extension}"
+
+                new_file_path = os.path.join(
+                    os.path.dirname(original_file.path), new_filename)
+
+                original_file.save(
+                    new_file_path, original_file.file, save=False)
+                setattr(self, image_field, new_filename)
+
+        save_image('pictureFront', 'Front')
+        save_image('pictureBack', 'Back')
+        save_image('pictureSide', 'Side')
+        save_image('pictureDetail', 'Detail')
+
         super().save(*args, **kwargs)
-
-        if self.picture:
-
-            original_filename, extension = os.path.splitext(self.picture.name)
-
-            self.picture01.name = f"{original_filename}_01{extension}"
-            self.picture01.save(self.picture01.name, self.picture.file)
-
-            self.picture02.name = f"{original_filename}_02{extension}"
-            self.picture02.save(self.picture02.name, self.picture.file)
-
-            self.picture03.name = f"{original_filename}_03{extension}"
-            self.picture03.save(self.picture03.name, self.picture.file)
-
-            self.picture04.name = f"{original_filename}_04{extension}"
-            self.picture04.save(self.picture04.name, self.picture.file)
 
     def __str__(self):
         return f"{self.manufacturer} {self.model} {self.color} {self.memory_size} {self.storage_size}"
