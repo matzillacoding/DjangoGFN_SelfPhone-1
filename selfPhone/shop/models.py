@@ -9,12 +9,12 @@ import os
 
 
 class Manufacturer(models.TextChoices):
-    APPLE = 'AP', _('Apple')
-    SAMSUNG = 'SM', _('Samsung')
-    GOOGLE = 'GO', _('Google')
-    SONY = 'SO', _('Sony')
-    XIAOMI = 'XI', _('Xiaomi')
-    HUAWEI = 'HU', _('Huawei')
+    APPLE = 'Apple', _('Apple')
+    SAMSUNG = 'Samsung', _('Samsung')
+    GOOGLE = 'Google', _('Google')
+    SONY = 'Sony', _('Sony')
+    XIAOMI = 'Xiaomi', _('Xiaomi')
+    HUAWEI = 'Huawei', _('Huawei')
 
 
 class Color(models.TextChoices):
@@ -57,7 +57,7 @@ class Costumer(models.Model):
 
 
 class Smartphone(models.Model):
-    manufacturer = models.CharField(max_length=2, choices=Manufacturer.choices)
+    manufacturer = models.CharField(max_length=8, choices=Manufacturer.choices)
     model = models.CharField(max_length=100)
     color = models.CharField(
         max_length=10, choices=Color.choices, default=Color.SCHWARZ)
@@ -139,6 +139,9 @@ class Smartphone(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=255)
     smartphone = models.OneToOneField(Smartphone, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 
 @receiver(post_save, sender=Smartphone)
