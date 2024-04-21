@@ -5,6 +5,7 @@ from .models import Costumer, Smartphone, Manufacturer, Color, Memory_size, Stor
 
 class SmartphoneStoreTestCase(TestCase):
     def setUp(self):
+        """Initial setup before each test method."""
         # Benutzer und Kunden erstellen
         self.user1, _ = User.objects.get_or_create(username='user1', defaults={
                                                    'email': 'user1@example.com', 'password': 'user1password'})
@@ -52,6 +53,7 @@ class SmartphoneStoreTestCase(TestCase):
             smartphone=self.smartphone2, defaults={'name': 'Galaxy S21 Blau'})
 
     def test_create_orders_with_different_quantities_and_models(self):
+        """Test the creation of orders with different quantities and models."""
         cart_item1 = CartItem.objects.create(product=self.product1, quantity=2)
         cart_item2 = CartItem.objects.create(product=self.product2, quantity=1)
         order1 = Order.objects.create(
@@ -61,27 +63,29 @@ class SmartphoneStoreTestCase(TestCase):
         total_quantity = order1.get_total_quantity
         self.assertEqual(total_quantity, 3,
                          "The total quantity calculated is incorrect.")
+        print("Test successful: Correct total quantity calculated for different models and quantities.")
 
     def test_pricing_logic(self):
+        """Test the pricing logic based on memory and storage specifications."""
         self.smartphone1.memory_size = Memory_size.sechzehn
         self.smartphone1.storage_size = Storage_size.terabyte
         self.smartphone1.save()
 
-        expected_price_adjustment = 310  # Korrekte Anpassung nach Überprüfung
+        expected_price_adjustment = 310  # Updated correct adjustment
         expected_price = 799.99 + expected_price_adjustment
         new_price = self.smartphone1.basic_price
 
         self.assertEqual(new_price, expected_price,
                          f"Expected price to be {expected_price}, but got {new_price}.")
+        print("Test successful: Pricing logic is correct based on memory and storage specifications.")
 
     def test_user_session_persistence(self):
-        # Benutzer einloggen und Produkt zum Warenkorb hinzufügen
+        """Test the persistence of cart items across user login sessions."""
         self.client.login(username='user1', password='user1password')
         CartItem.objects.create(product=self.product1, quantity=1)
         items_in_cart_before_logout = CartItem.objects.filter(
             product=self.product1).count()
 
-        # Benutzer ausloggen und wieder einloggen
         self.client.logout()
         self.client.login(username='user1', password='user1password')
         items_in_cart_after_login = CartItem.objects.filter(
@@ -89,24 +93,24 @@ class SmartphoneStoreTestCase(TestCase):
 
         self.assertEqual(items_in_cart_before_logout, items_in_cart_after_login,
                          "Cart items do not persist after re-login.")
+        print("Test successful: Cart items persist after re-login, ensuring user session persistence.")
 
 
 class PricingLogicTestCase(TestCase):
     def test_update_price_based_on_specs(self):
-        # Erstelle ein Smartphone-Objekt
+        """Direct test to validate price adjustment based on smartphone specs."""
         smartphone = Smartphone(
             manufacturer=Manufacturer.APPLE,
             model='Test iPhone',
             color='Schwarz',
             memory_size=Memory_size.sechzehn,
             storage_size=Storage_size.terabyte,
-            basic_price=799.99  # Basispreis setzen
+            basic_price=799.99  # Initial base price
         )
 
-        # Preis aktualisieren
         smartphone.update_price_based_on_specs()
 
-        # Überprüfen, ob der Preis korrekt aktualisiert wurde
-        expected_price = 799.99 + 280  # Erwartete Preisanpassung für diese Konfiguration
+        expected_price = 799.99 + 280  # Expected price adjustment
         self.assertEqual(smartphone.basic_price, expected_price,
                          f"Expected price to be {expected_price}, but got {smartphone.basic_price}.")
+        print("Test successful: Correct price adjustment applied based on smartphone specifications.")
