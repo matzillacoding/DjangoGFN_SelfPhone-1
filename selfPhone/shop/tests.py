@@ -1,11 +1,11 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
-from .models import Costumer, Smartphone, Manufacturer, Color, Memory_size, Storage_size, Product, CartItem, Order, Address
+from .models import *
 
 
 class SmartphoneStoreTestCase(TestCase):
     def setUp(self):
-        """Initial setup before each test method."""
+        """Initial setup"""
         # Benutzer und Kunden erstellen
         self.user1, _ = User.objects.get_or_create(username='user1', defaults={
                                                    'email': 'user1@example.com', 'password': 'user1password'})
