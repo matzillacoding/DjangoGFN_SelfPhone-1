@@ -1,0 +1,79 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div id="banner" data-brand="{{ manufacturer }}" class="container-full">
+    <div class="banner-overlay">
+        <div class="banner-headline">{{ manufacturer }}</div>
+    </div>
+</div>
+
+{% comment %} {% if manufacturer == 'Apple' %}
+<div id="banner" data-brand="apple" class="container-full">
+    <div class="banner-overlay">
+        <div class="banner-headline">Apple</div>
+    </div>
+</div>
+{% elif manufacturer == 'Samsung' %}
+<div id="banner" data-brand="samsung" class="container-full">
+    <div class="banner-overlay">
+        <div class="banner-headline">Samsung</div>
+    </div>
+</div>
+{% elif manufacturer == 'Huawei' %}
+<div id="banner" data-brand="huawei" class="container-full">
+    <div class="banner-overlay">
+        <div class="banner-headline">Huawei</div>
+    </div>
+</div>
+
+{% elif manufacturer == 'Xiaomi' %}
+<div id="banner" data-brand="xiaomi" class="container-full">
+    <div class="banner-overlay">
+        <div class="banner-headline">Xiaomi</div>
+    </div>
+</div>
+{% elif manufacturer == 'Sony' %}
+<div id="banner" data-brand="sony" class="container-full">
+    <div class="banner-overlay">
+        <div class="banner-headline">Sony</div>
+    </div>
+</div>
+{% elif manufacturer == 'Google' %}
+<div id="banner" data-brand="google" class="container-full">
+    <div class="banner-overlay">
+        <div class="banner-headline">Google</div>
+    </div>
+</div>
+{% endif %} {% endcomment %}
+
+<div class="container-full">
+    <div class="container">
+        <div class="gallery-container">
+            {% for smartphone in smartphones %}
+            <div class="gallery-item">
+                <div class="gallery-item-image">
+                    <a href="{{ smartphone.pictureFront.url }}" title="{{ smartphone.model }}">
+                        <img src="{{ smartphone.pictureFront.url }}" alt="{{ smartphone.model }}"> 
+                    </a>
+                </div>
+                <div class="gallery-item-content">
+                    <div class="gallery-item-name">
+                        <span class="brand">{{ smartphone.manufacturer }}</span>
+                        <span class="model">{{ smartphone.model }}</span>
+                        <div class="color">{{ smartphone.color }}</div>
+                    </div>
+                    <div class="price">{{ smartphone.basic_price }} €</div>
+                </div>
+            </div>
+            {% empty %}
+            <p>Keine Produkte von {{ manufacturer }} gefunden.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<p>Hersteller: {{ manufacturer }}</p>
+
+{% endblock content %}

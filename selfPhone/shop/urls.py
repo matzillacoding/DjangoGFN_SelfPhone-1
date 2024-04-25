@@ -4,9 +4,10 @@ from . import views
 urlpatterns = [
     path('', views.shop, name='shop'),
 
-    path('product_gallery/', views.product_gallery, name='product_gallery'),
 
-    path('product_details/', views.product_details, name='product_details'),
+
+    path('product_gallery/<str:manufacturer>/',
+         views.product_gallery, name='product_gallery'),
 
     path('basket/', views.basket, name='basket'),
 
@@ -20,6 +21,18 @@ urlpatterns = [
 
     path('register/', views.register_user, name='register'),
 
-    # path('shop_backend/', views.shopBackend, name='shop_backend')
+    path('apple/', views.apple, name='apple'),
+
+    path('samsung/', views.samsung, name='samsung'),
+
+    path('huawei/', views.huawei, name='huawei'),
+
+    path('xiaomi/', views.xiaomi, name='xiaomi'),
+
+    path('sony/', views.sony, name='sony'),
+
+    path('google/', views.google, name='google'),
+
+    path('shopBackend/', views.shopBackend, name='shopBackend'),
 
 ]

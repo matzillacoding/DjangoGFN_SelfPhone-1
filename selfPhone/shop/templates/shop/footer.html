@@ -1,1 +1,66 @@
-<div class="test"></div>
+{% load static %}
+
+<div id="footer" class="container-full">
+    <div class="container">
+
+        <div class="footer-container">
+            <div class="footer-item">
+                <h6 class="footer-item-headline">Über uns</h6>
+                <ul>
+                    <li><a href="" title="">Unternehmen</a></li>
+                    <li><a href="" title="">Presse</a></li>
+                    <li><a href="" title="">Nachhaltigkeit</a></li>
+                    <li><a href="" title="">Jobs &amp; Karriere</a></li>
+                </ul>
+            </div>
+            <div class="footer-item">
+                <h6 class="footer-item-headline">Informationen</h6>
+                <ul>
+                    <li><a href="" title="">Impressum</a></li>
+                    <li><a href="" title="">AGBs</a></li>
+                    <li><a href="" title="">Datenschutzerklärung</a></li>
+                    <li><a href="" title="">Widerrufserklärung</a></li>
+                </ul>
+            </div>
+            <div class="footer-item">
+                <h6 class="footer-item-headline">Social Media</h6>
+                <ul>
+                    <li><a href="" title="">LinkedIn</a></li>
+                    <li><a href="" title="">Xing</a></li>
+                    <li><a href="" title="">Instagram</a></li>
+                    <li><a href="" title="">Facebook</a></li>
+                    <li><a href="" title="">Pinterest</a></li>
+                    <li><a href="" title="">YouTube</a></li>
+                </ul>
+            </div>
+            <div class="footer-item">
+                <div class="footer-item-container">
+                    <h6 class="footer-item-headline">Zahlung</h6>
+                    <div class="footer-item-icons">
+                        <img src="{% static 'images/payment/paypal.png' %}">
+                        <img src="{% static 'images/payment/klarna.png' %}">
+                        <img src="{% static 'images/payment/visa.png' %}">
+                        <img src="{% static 'images/payment/master.png' %}">
+                        <img src="{% static 'images/payment/amex.png' %}">
+                    </div>
+                </div>
+                <div class="footer-item-container">
+                    <h6 class="footer-item-headline">Versand</h6>
+                    <div class="footer-item-icons">
+                        <div class="footer-item-icons">
+                            <img src="{% static 'images/shiping/dhl.png' %}">
+                            <img src="{% static 'images/shiping/ups.png' %}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer-lower">
+        <div class="container">
+            <p>&copy; 2024 - Selfphone GmbH</p>
+        </div>
+    </div>
+</div>

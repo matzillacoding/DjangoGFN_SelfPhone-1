@@ -1,23 +1,54 @@
+from .models import *
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import Costumer
-# from asgiref.sync import sync_to_async
 from . forms import EigeneUserCreationForm, AddressForm
+import json
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+# F() Expression ermöglicht es, die Datenbank direkt zu aktualisieren
+from django.db.models import F
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 
 def shop(request):
-    return render(request, 'shop/product_details.html')
+    return render(request, 'shop/start.html')
 
 
 def start(request):
     return render(request, 'shop/start.html')
 
 
-def product_gallery(request):
-    return render(request, 'shop/product_gallery.html')
+def apple(request):
+    return redirect('product_gallery', manufacturer='Apple')
+
+
+def samsung(request):
+    return redirect('product_gallery', manufacturer='Samsung')
+
+
+def huawei(request):
+    return redirect('product_gallery', manufacturer='Huawei')
+
+
+def xiaomi(request):
+    return redirect('product_gallery', manufacturer='Xiaomi')
+
+
+def sony(request):
+    return redirect('product_gallery', manufacturer='Sony')
+
+
+def google(request):
+    return redirect('product_gallery', manufacturer='Google')
+
+
+def product_gallery(request, manufacturer):
+    smartphones = Smartphone.objects.filter(manufacturer=manufacturer)
+    return render(request, 'shop/product_gallery.html', {'smartphones': smartphones, 'manufacturer': manufacturer})
 
 
 def product_details(request):
@@ -28,8 +59,32 @@ def basket(request):
     return render(request, 'shop/basket.html')
 
 
+@login_required
 def checkout(request):
-    return render(request, 'shop/checkout.html')
+    try:
+        customer = Costumer.objects.get(customer=request.user)
+        address = Address.objects.filter(customer=customer).first()
+        cart_items = CartItem.objects.filter(
+            product__smartphone__customer=customer, is_ordered=False)
+        if not cart_items:
+            messages.info(request, "Ihr Warenkorb ist leer.")
+            return render(request, 'shop/checkout.html', {
+                'customer': customer,
+                'address': address,
+                'cart_items': cart_items
+            })
+        return render(request, 'shop/checkout.html', {
+            'customer': customer,
+            'address': address,
+            'cart_items': cart_items
+        })
+    except Costumer.DoesNotExist:
+        messages.error(request, "Kundeninformationen nicht gefunden.")
+        return redirect('login')
+    except Exception as e:
+        # Für andere unerwartete Ausnahmen
+        messages.error(request, f"Ein Fehler ist aufgetreten: {str(e)}")
+        return redirect('home')
 
 
 def test(request):
@@ -75,6 +130,9 @@ def register_user(request):
         address_form = AddressForm(request.POST)
         if user_form.is_valid() and address_form.is_valid():
             benutzer = user_form.save()
+            if Costumer.objects.filter(customer=benutzer).exists():
+                messages.error(request, "Benutzerkonto bereits vorhanden.")
+                return render(request, 'shop/register.html', {'seite': seite, 'user_form': user_form, 'address_form': address_form})
 
             customer = Costumer(
                 first_name=user_form.cleaned_data['first_name'],
@@ -97,29 +155,61 @@ def register_user(request):
     return render(request, 'shop/register.html', {'seite': seite, 'user_form': user_form, 'address_form': address_form})
 
 
-# def register_user(request):
-#     seite = 'register'
-#     form = EigeneUserCreationForm
-#     messages.success(request, "register_user geladen.")
+@require_POST  # Stellt sicher, dass diese View nur POST-Anfragen akzeptiert
+def shopBackend(request):
+    try:
+        data = json.loads(request.body)
+        action = data.get('action')
+        if action == 'add_to_cart':
+            product_id = data.get('product_id')
+            quantity = data.get('quantity', 1)
+            product = Product.objects.get(id=product_id)
+            cart_item, created = CartItem.objects.update_or_create(
+                product=product,
+                defaults={'quantity': F('quantity') + quantity}
+            )
+            return JsonResponse({'message': 'Produkt erfolgreich zum Warenkorb hinzugefügt',
+                                 'cart_quantity': cart_item.quantity}, status=200)
+        elif action == 'update_cart':
+            cart_item_id = data.get('cart_item_id')
+            quantity = data.get('quantity')
+            cart_item = CartItem.objects.get(id=cart_item_id)
+            cart_item.quantity = quantity
+            cart_item.save()
+            return JsonResponse({'message': 'Warenkorb erfolgreich aktualisiert'}, status=200)
+        elif action == 'remove_from_cart':
+            cart_item_id = data.get('cart_item_id')
+            CartItem.objects.filter(id=cart_item_id).delete()
+            return JsonResponse({'message': 'Artikel erfolgreich aus dem Warenkorb entfernt'},
+                                status=200)
+        elif action == 'create_order':
+            customer = Costumer.objects.get(user=request.user)
 
-#     if request.method == 'POST':
-#         form = EigeneUserCreationForm(request.POST)
-#         if form.is_valid():
-#             benutzer = form.save(commit=False)
-#             benutzer.save()
+            address = Address.objects.filter(customer=customer).first()
+            order = Order.objects.create(customer=customer, address=address)
 
-#             customer = Costumer(
-#                 first_name=request.POST['first_name'],
-#                 last_name=request.POST['last_name'],
-#                 email=request.POST['email'],
-#                 customer=benutzer)
-#             customer.save()
-
-#             login(request, benutzer)
-#             messages.success(request, "Benutzerkonto wurde erstellt.")
-#             return redirect('shop')
-#         else:
-#             messages.error(
-#                 request, "Fehler beim Erstellen des Benutzerkontos.")
-
-#     return render(request, 'shop/register.html', {'seite': seite, 'form': form})
+            cart_items = CartItem.objects.filter(
+                product__smartphone__customer=customer, is_ordered=False)
+            for item in cart_items:
+                item.is_ordered = True
+                item.save()
+            order.products.set(cart_items)
+            order.save()
+            return JsonResponse({'message': 'Bestellung erfolgreich erstellt',
+                                 'order_id': order.id}, status=200)
+        else:
+            return JsonResponse({'error': 'Unbekannte Aktion'}, status=400)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Ungültiges JSON'}, status=400)
+    except Product.DoesNotExist:
+        return JsonResponse({'error': 'Produkt nicht gefunden'}, status=404)
+    except CartItem.DoesNotExist:
+        return JsonResponse({'error': 'Warenkorb-Element nicht gefunden'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Ungültiges JSON'}, status=400)
+    except ObjectDoesNotExist as e:
+        return JsonResponse({'error': str(e)}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)

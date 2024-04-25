@@ -87,6 +87,47 @@ ul {
     margin: 0 auto;
 }
 
+@mixin base-container {
+    width: $breakpoint-xxl;
+    max-width: 100%;
+    padding: $spacing-sm;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-xs;
+    @include breakpoint($breakpoint-xxl) {
+        width: $base-width;
+    }
+}
+
+// Button
+
+@mixin btn {
+    border: 0;
+    border-radius: $spacing-xs;
+    padding: $spacing-sm $spacing-md calc($spacing-sm - 3px) ;
+    margin-top: $spacing-md;
+    font-size: $fs-smaller;
+    width: 240px;
+    max-width: 100%;
+    color: $color-light;    
+    background: {
+        color: transparent;
+        image: linear-gradient(90deg, $color-accent-secondary 50%, $color-overlay-light 50%);
+        size: 200%;
+        position: right;
+    }
+    text-align: center;
+    line-height: 1;
+    transition: $transition-nav-item;
+    cursor: pointer;
+    &:hover {
+        background: {
+            position: left;
+        }
+    }
+}
+
 // Header
 
 #header, 
@@ -338,7 +379,7 @@ $brands: apple, samsung, google, sony, huawei, xiaomi;
     left: 100%;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, .5);
+    background: $color-overlay-dark;
     opacity: 0;
     cursor: pointer;
     transition: $transition-nav-slider;
@@ -369,19 +410,21 @@ main {
     right: $spacing-sm;
 }
 
-.slick-list {
-    @include breakpoint($breakpoint-sm) {
-        padding: 0 20% 0 0 !important;
+#image-slider {
+    .slick-list {
+        @include breakpoint($breakpoint-sm) {
+            padding: 0 20% 0 0 !important;
+        }
+        @include breakpoint($breakpoint-md) {
+            padding: 0 33% 0 0 !important;
+        }
     }
-    @include breakpoint($breakpoint-md) {
-        padding: 0 33% 0 0 !important;
-    }
-}
 
-.slick-slide {
-    img {
-        width: 100%;
-        max-width: 100%;
+    .slick-slide {
+        img {
+            width: 100%;
+            max-width: 100%;
+        }
     }
 }
 
@@ -538,6 +581,7 @@ main {
                         font-size: 12px;
                         color: $color-secondary;
                         line-height: 1;
+                        border-radius: $spacing-xs;
                     }
                 }
             }
@@ -556,11 +600,12 @@ main {
         text-align: center;
         border: none;
         background: $color-ternary;
-        border-radius: 0;
+        border-radius: $spacing-xs;
         border-right: $spacing-sm solid #eee;
     }
     button {
         border: none;
+        border-radius: $spacing-xs;
         padding: $spacing-md $spacing-xl;
         width: 100%;
         color: $color-light;
@@ -600,4 +645,559 @@ main {
         align-items: center;
         border-bottom: 1px solid $color-ternary;
     }
+}
+
+// STARTPAGE
+
+// Videobanner
+
+.video-container {
+    position: relative;
+    width: 100vw;
+    max-width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    video {
+        object-fit: cover;
+        min-width: 100%;
+    }
+    .video-overlay {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: "";
+        width: 100%;
+        height: 100%;
+        color: $color-light;
+        background: $color-overlay-dark;
+        padding: $spacing-sm;
+        text-align: center;
+        .video-headline {
+            font-size: $fs-2;
+            line-height: 1;
+            font-weight: 600;
+            letter-spacing: -2px;
+            @include breakpoint($breakpoint-md) {
+                font-size: calc($fs-1 * .75);
+            }
+            @include breakpoint($breakpoint-lg) {
+                font-size: $fs-1;
+            }
+        }
+        .video-subline {
+            font-size: $fs-smaller;
+            margin: $spacing-sm 0;
+            @include breakpoint($breakpoint-md) {
+                font-size: $fs-small;
+            }
+        }
+        .video-btn {
+            @include btn;
+        }
+    }
+}
+
+// Brand Slider
+
+#brand-slider-wrapper {    
+    padding: $spacing-md;
+    background: $color-ternary;
+}
+
+.brand-slider {
+    max-width: $breakpoint-xxl;
+    margin: 0 auto;
+    .brand-slider-item {
+        a {
+            display: block;
+            overflow: hidden;
+            transition: $transition-brand-slider;
+            img {
+                max-width: 50px;
+                padding: $spacing-xs;
+                margin: 0 auto;
+                filter: invert(1);
+            }
+            &:hover {
+                img {
+                    transform: scale(calc(1.25));
+                    transition: $transition-brand-slider;
+                }
+            }
+        }
+    }
+}
+
+// Advertising Container
+
+.ad-container {
+    @include base-container;
+    .ad-item {
+        position: relative;
+        flex: 1 1 calc(100%);
+        overflow: hidden;
+        @include breakpoint($breakpoint-md) {
+            flex: 1 1 calc(50% - $spacing-xs);
+        }
+        img {
+            width: 100%;
+            max-width: 100%;
+            height: 100%;
+            transition: $transition-brand-slider;
+        }
+        &:hover img {
+            transform: scale(1.25);
+        }
+        .ad-item-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: $color-overlay-dark;
+            color: $color-light;
+            text-align: center;
+            transition: $transition-nav-item;
+            &:hover {
+                background: lighten($color-overlay-dark, 20%);
+            }
+            .ad-item-headline {
+                font-size: $fs-6;
+                text-transform: uppercase;
+                font-weight: 600;
+                @include breakpoint($breakpoint-sm) {
+                    font-size: $fs-5;
+                }
+                @include breakpoint($breakpoint-md) {
+                    font-size: $fs-4;
+                }
+                @include breakpoint($breakpoint-lg) {
+                    font-size: $fs-3;
+                }
+            }
+            .ad-item-button {
+                @include btn;
+                width: 180px;
+                max-width: 100%;
+                font-size: calc($fs-smaller * .875);
+                background-image: linear-gradient(90deg, $color-dark 50%, $color-overlay-light 50%);
+            }
+        }
+    }
+}
+
+// FOOTER
+
+#footer {
+    background: $color-ternary;
+}
+
+.footer-container {
+    @include base-container;
+    .footer-item {
+        flex: 1 1 100%;
+        font-size: $fs-smaller;
+        padding: $spacing-md $spacing-sm;
+        @include breakpoint($breakpoint-sm) {
+            flex: 1 1 calc(50% - $spacing-xs);
+        }
+        @include breakpoint($breakpoint-md) {
+            flex: 1 1 calc(25% - $spacing-xs);
+        }
+        .footer-item-headline {
+            font-weight: 600;
+            margin-bottom: $spacing-sm;
+        }
+        a {
+            display: block;
+            width: 100%;
+            padding: $spacing-xs 0;
+            transition: $transition-nav-item;
+            &:hover {
+                color: $color-accent-primary;
+            }
+        }
+        .footer-item-container:not(:last-of-type) {
+            padding-bottom: $spacing-xl;
+        }
+        .footer-item-icons {
+            display: flex;
+            flex-wrap: wrap;
+            column-gap: $spacing-xs;
+        }
+    }
+}
+
+.footer-lower {
+    padding: $spacing-sm;
+    text-align: center;
+    background: $color-dark;
+    color: $color-light;
+    font-size: 10px;
+    font-weight: 500;
+}
+
+// PRODUCT GALLERY
+
+.gallery-container {
+    width: $breakpoint-xxl;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: $spacing-xl $spacing-xs;
+    display: grid;
+    gap: $spacing-xs;
+    @include breakpoint($breakpoint-xs) {
+        grid-template-columns: repeat(auto-fill, minmax(calc(50% - $spacing-xs), 1fr));
+    }
+    @include breakpoint($breakpoint-md) {
+        grid-template-columns: repeat(auto-fill, minmax(calc(100% / 3 - $spacing-xs), 1fr));
+    }
+    @include breakpoint($breakpoint-lg) {
+        grid-template-columns: repeat(auto-fill, minmax(calc(25% - $spacing-xs), 1fr));
+    }
+    @include breakpoint($breakpoint-xl) {
+        grid-template-columns: repeat(auto-fill, minmax(calc(20% - $spacing-xs), 1fr));
+    }
+    .gallery-item {
+        background: $color-ternary;
+        padding: $spacing-sm;
+        overflow: hidden;
+        .gallery-item-image {
+            img {
+                width: 100%;
+                max-width: 100%;
+                transition: $transition-brand-slider;
+            }
+        }
+        &:hover img {
+            transform: scale(1.05);
+        }
+        .gallery-item-content {
+            text-align: center;
+            .brand {
+                font-weight: 600;
+            }
+            .color {
+                font-size: $fs-smaller;
+                margin: $spacing-xs 0;
+            }
+            .price {
+                color: $color-secondary;
+                font-size: $fs-smaller;
+                letter-spacing: 0;
+                font-weight: 600;
+            }
+        }
+        .variations {
+            display: flex;
+            justify-content: center;
+            gap: $spacing-xs;
+            margin-top: $spacing-sm;
+            .var {
+                display: inline-block;
+                height: 16px;
+                width: 16px;
+                border-radius: 50%;
+            }
+        }
+    }
+}
+
+// MARKENSHOP BANNER
+
+$bannerimage: apple, samsung, google, sony, huawei, xiaomi;
+
+@each $image in $bannerimage {
+    #banner[data-brand="#{$image}"]{
+        background-image: url('../images/banner/#{$image}.png');
+    }
+}
+
+#banner {
+    position: relative;
+    width: 100%;
+    height: 50vh;
+    background: {
+        size: cover;
+        position: center;
+        repeat: no-repeat;
+    }
+    @include breakpoint($breakpoint-md) {
+        height: 75vh;
+    }
+    .banner-overlay {
+        position: absolute;
+        content: "";
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: $color-overlay-dark;
+        font-size: $fs-2;
+        font-weight: 600;
+        letter-spacing: 0;
+        text-transform: uppercase;
+        color: $color-light;
+        @include breakpoint($breakpoint-sm) {
+            font-size: calc($fs-2 * 1.5);
+        }
+        @include breakpoint($breakpoint-md) {
+            font-size: $fs-1;
+        }
+    }
+}
+
+// REGISTRATION PAGE
+
+// Registration Lower Section
+
+.registration-container {
+    @include base-container;
+    display: block;
+    @include breakpoint($breakpoint-xl) {
+        width: $breakpoint-xxl;
+    }
+    padding: $spacing-xl 0;
+    .registration-item {
+        padding: $spacing-sm;
+    }
+    h2 {
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0;
+        font-size: 28px;
+        margin: $spacing-md 0;
+    }
+    
+}
+
+#registerForm {
+    @include breakpoint($breakpoint-lg) {
+        display: flex;    
+        gap: $spacing-xl;
+        #userInfo, 
+        #addressInfo {
+            flex: 1 1 calc(50% - $spacing-xl);
+        }
+    }
+}
+
+// Input Configuration
+
+.registration-form-field {
+    position: relative;
+    .field-label,
+    label {
+        position: absolute;
+        font-size: $fs-small;
+        color: $color-dark;
+        top: calc((52px - $fs-small - 2px) / 2);
+        left: $spacing-xs;
+        z-index: -1;
+        transition: $transition-nav-item;
+    }
+    input {
+        width: 100%;
+        height: 52px;
+        border: none;
+        border-radius: .5rem;
+        background: rgba(230, 230, 230, .5);
+        padding: $spacing-xs;
+        margin-bottom: $spacing-md;
+        &:focus,
+        &:focus-visible {
+            border: none;
+            outline: none;
+            font-size: $fs-small;
+            background: darken($color-ternary, 10%);
+        }
+        &:valid + .field-label,
+        &:focus + .field-label,
+        &:focus-visible + .field-label,
+        &:valid + label,
+        &:focus + label,
+        &:focus-visible + label {
+            position: absolute;
+            top: calc(-1 * $fs-small / 2);
+            left: 0;
+            background: $color-dark;
+            color: $color-light;
+            padding: 0 $spacing-xs;
+            font-size: calc($fs-smaller / 6 * 5);
+            border-radius: $spacing-xs;
+            z-index: 1;
+        }  
+    }
+}
+
+@mixin form-container {
+    display: flex;
+    gap: $spacing-xs;
+}
+
+#registerForm {
+    @include breakpoint($breakpoint-sm) {
+        #kundennameContainer,
+        #passwortContainer {
+            @include form-container;
+            .registration-form-field {
+                flex: 1 1 calc(50% - ($spacing-xs / 2));
+            }
+        }
+
+        #strassennameContainer {
+            @include form-container;
+            .registration-form-field:first-of-type {
+                flex: 1 1 75%;
+            }
+        }
+
+        #plzContainer {
+            @include form-container;
+            .registration-form-field:last-of-type {
+                flex: 1 1 calc(75% - ($spacing-xs / 2));
+            }
+        }
+    }
+}
+
+#registerButton,
+#loginButton,
+#logoutButton,
+#registerNowButton {
+    display: block;
+    border: none;
+    border-radius: $spacing-xs;
+    padding: $spacing-md $spacing-xl;
+    margin-top: calc($spacing-xs / 2);
+    width: 100%;
+    font-size: $fs-small;
+    color: $color-light;
+    letter-spacing: 1px;
+    text-align: center;
+    background: {
+        image: linear-gradient(90deg, $color-accent-secondary 50%, $color-dark 50%);
+        size: 200%;
+        position: right;
+    }
+    transition: $transition-nav;
+    cursor: pointer;
+    &:hover {
+        background-position: left;
+    }
+}
+
+#logoutButton {
+    background-image: linear-gradient(90deg, #960000 50%, $color-dark 50%);
+}
+
+
+
+// Registration Upper Section
+
+#registration-header {
+    background: $color-ternary;
+    .container {
+        @include base-container;
+        min-height: 30vh;
+        @include breakpoint($breakpoint-lg) {
+            padding: $spacing-xl $spacing-sm;
+        }
+        @include breakpoint($breakpoint-xxl) {
+            width: $breakpoint-xxl;
+        }   
+        .registration-benefits-container {
+            flex: 1 1 100%;
+            letter-spacing: 0;
+            text-align: center;
+            @include breakpoint($breakpoint-lg) {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: $spacing-xl;
+            }
+            .reg-ben-item {
+                @include breakpoint($breakpoint-lg) {
+                    flex: 1 1 calc(50% - $spacing-xl);
+                }
+            }
+        } 
+        h1 {
+            font-size: $fs-2;
+            font-weight: 600;
+            letter-spacing: 0;
+            text-transform: uppercase;
+            margin: $spacing-sm 0;
+            border-bottom: 1px solid rgba(0, 0, 0, .15);
+            @include breakpoint($breakpoint-md) {
+                font-size: calc($fs-1 * .75);
+            }
+            @include breakpoint($breakpoint-lg) {
+                margin: 0 0 $spacing-sm 0;
+            }
+        }
+    }
+}
+.already-registered-container {
+    text-align: center;
+    margin: $spacing-lg 0;
+    .reg-ben-item:last-of-type {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        background: darken($color-ternary, 5%);
+    }
+    p {
+        color: #960000;
+        font-size: $fs-6;
+        text-transform: uppercase;
+        font-weight: 600;
+        margin: $spacing-xs 0;
+    }
+    a {
+        transition: $transition-nav-item;
+        font-weight: 600;
+        color: $color-secondary;
+        &:hover {
+            color: $color-dark;
+        }
+    }
+}
+
+// LOGIN- LOGOUT-SLIDER
+
+.login-container-item {
+    padding: $spacing-lg $spacing-sm;
+    color: $color-secondary;
+    h4 {
+        font-weight: 600;
+        letter-spacing: 0;
+        color: $color-dark;
+        margin-bottom: $spacing-md;
+        text-transform: uppercase;
+    }
+}
+
+.already-registered {
+    margin-top: $spacing-sm;
+    padding-top: $spacing-sm;
+    border-top: 1px solid rgba(0, 0, 0, .25);
+}
+
+#loginButton,
+#logoutButton,
+#registerNowButton {
+    padding: $spacing-sm;
 }

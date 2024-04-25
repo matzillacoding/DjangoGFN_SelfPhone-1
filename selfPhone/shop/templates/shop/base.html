@@ -24,22 +24,16 @@
     <link rel="stylesheet" href="{% static 'slickslider/slick.css' %}">
     <link rel="stylesheet" href="{% static 'slickslider/slick-theme.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
-
- 
-
- 
 </head>
 <body>
     
     {% include 'shop/header.html' %}
 
-   
+    <main>
     {% block content %}
 
     {% endblock content %}
-
-
+    </main>
    
     
     {% include 'shop/footer.html' %}
@@ -53,6 +47,7 @@
     <script src="{% static 'slickslider/slick.min.js' %}"></script>    
     <script src="{% static 'js/image-slider.js' %}"></script>
     <script src="{% static 'js/header.js' %}"></script>
+    <script src="{% static 'js/brand-slider.js' %}"></script>
 
 </body>
 </html>
